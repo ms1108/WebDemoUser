@@ -2,10 +2,35 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.user.dao.UserDAO">
     <select id="findAll" resultType="com.user.entity.User">
-        select id,name,bir,sex,address from t_user
+        select id, name, bir, sex, address
+        from t_user
     </select>
 
     <insert id="save" parameterType="com.user.entity.User" useGeneratedKeys="true" keyProperty="id">
-        insert into t_user value(#{id},#{name},#{bir},#{sex},#{address})
+        insert into t_user value (#{id},#{name},#{bir},#{sex},#{address})
     </insert>
+
+    <delete id="delete" parameterType="String">
+        delete
+        from t_user
+        where id = #{id}
+    </delete>
+
+    <update id="update" parameterType="com.user.entity.User">
+        update t_user
+        set name=#{name},
+            bir=#{bir},
+            sex=#{sex},
+            address=#{address}
+        where id = #{id}
+    </update>
+    <!--分页查询-->
+    <select id="findByPage" resultType="com.user.entity.User">
+        select id, name, bir, sex, address
+        from t_user limit #{start},#{rows}
+    </select>
+
+    <select id="findTotal" resultType="java.lang.Integer">
+        select count(id) from t_user
+    </select>
 </mapper>
